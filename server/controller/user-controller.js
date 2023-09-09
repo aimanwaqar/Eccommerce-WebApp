@@ -7,7 +7,7 @@ export const userSignup = async(req,res) =>{
 
        const exist = await User.findOne({username: req.body.username}) ;
        if(exist) {
-        return response.status(401).json({message: 'Username already exist'});
+        return res.status(401).json({message: 'Username already exist'});
        }
        const user = await req.body;
        const newUser = new User(user);
@@ -15,5 +15,21 @@ export const userSignup = async(req,res) =>{
        res.status(200).json({message: user});
     }catch(error){
         res.status(500).json({message: error.message});
+    }
+}
+
+export const userLogin = async(req,res)=>{
+    try{
+        const username = req.body.username;
+        const password = req.body.password;
+        const user = await User.findOne({username: username, password: password});
+        if(user){
+            return res.status(200).json({data: user});
+        } else{
+            return res.status(401).json('Invalid Login');
+
+        } 
+    }catch(error){
+        return res.status(500).json(error.message);
     }
 }
