@@ -4,20 +4,32 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import LoginDialog from "../login/LoginDiaolog"
 import { DataContext } from '../../context/DataProvider';
 import Profile from './Profile';
-const Wrapper = styled(Box)`
-   display: flex;
-   margin: 0 3% 0 auto;
-   & > button, & >p, & >div{
-     margin-right: 40px;
-     font-size: 16px;
-     align-items: center;
-   }
-`
-const Container =styled(Box)`
-   display: flex;
 
+
+const Wrapper = styled(Box)(({theme})=>({
+  display: 'flex',
+  margin: '0 3% 0 auto',
+  '& > button, & >p, & >div' : {
+    marginRight: '40px',
+    fontSize: '16px',
+    alignItems:' center',
+  },
+  [theme.breakpoints.down('md')]:{
+    display:'block',
+  }
+}));
+  
+
+const Container =styled(Box)(({theme})=>({
+  display: 'flex',
+  [theme.breakpoints.down('md')]:{
+    display: 'block',
+  }
+
+}));
    
-`
+
+  
 const LoginButton = styled(Button)`
     color: #2874f0;
     background: #FFF;
@@ -27,9 +39,8 @@ const LoginButton = styled(Button)`
     box-shadow: none;
     font-weight: 600;
     heightL 32px;
-
-
 `
+
 const CustomButtons = () =>{
 
     const [open,setOpen] = useState(false);

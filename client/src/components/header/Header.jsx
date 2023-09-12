@@ -1,4 +1,6 @@
-import { AppBar,Toolbar,styled,Box,Typography} from "@mui/material"
+import { useState } from "react";
+import { AppBar,Toolbar,styled,Box,Typography,List,ListItem,Drawer,IconButton, Icon} from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
 
 
 import Search from "./Search";
@@ -23,20 +25,58 @@ const PlusImage = styled('img')({
    width: 10,
    height: 10,
    marginLeft: 4,
-
-
 });
+
+const CustomButtonWrapper = styled(Box)(({theme})=>({
+   margin: '0 5% 0 auto',
+   [theme.breakpoints.down('md')]:{
+      display:' none',
+   }
+
+}));
+ const MenuButton = styled(IconButton)(({theme})=>({
+   display: 'none',
+   [theme.breakpoints.down('md')]:{
+      display: 'block'
+   }
+ }))
+
 
 const Header = ()=>{
 
     const logoURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png';
     const subURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/plus_aef861.png';
 
+
+     const [open,setOpen] = useState(false)
+    const handleOpen= ()=>{
+        setOpen(true);
+    }
+
+
+    const handleClose= ()=>{
+      setOpen(false);
+    }
+
+    const list = ()=>{
+      <Box style={{width: '200px'}} onClick={handleClose}>
+         <List>
+            <ListItem ButtonBase={true}>
+                  <CustomButtons />
+            </ListItem>
+         </List>
+      </Box>
+    }
     return(
         <>
           <StyledHeader>
-            <Toolbar style={{minHeight: 55
-            }}>
+            <Toolbar style={{minHeight: 55 }}>
+               <MenuButton color="inherit" onClick={handleOpen}>
+                  <MenuIcon /> 
+               </MenuButton>
+               <Drawer open={open} onClose={handleClose}>
+                   {list()}
+               </Drawer>
                <Component to='/'>
                   <img src={logoURL} alt="logo" style={{ width: 75 }}/>
                   <Box style={{display:'flex',}}>
@@ -48,9 +88,9 @@ const Header = ()=>{
                   </Box>
                </Component>
                <Search />
-               <Box style={{margin: '0 5% 0 auto'}}>
+               <CustomButtonWrapper >
                   <CustomButtons />
-               </Box>
+               </CustomButtonWrapper>
             </Toolbar>
           </StyledHeader>
         </>
